@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Resep R </title>
+<style>
+  body {
+   -webkit-tap-highlight-color: transparent;
+    font-family: "Segoe UI", sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    transition: background 0.3s, color 0.3s;
+  }
+  header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ff7f50;
+  color: #fff;
+  padding: 10px 14px;
+  height: 56px; /* tinggi tetap biar stabil */
+  box-sizing: border-box;
+}
+
+
+  header h1 {
+    margin: 0;
+    cursor: pointer;
+    user-select: none;
+  }
+  #themeToggle {
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+  #searchBox {
+    width: 80%;
+    padding: 8px;
+    margin: 10px 8%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  .recipe {
+    background: #fff;
+    margin: 10px auto;
+    width: 90%;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .recipe button {
+    background: #ff7f50;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .recipe button:hover {
+    background: #ff9966;
+  }
+  .details {
+    margin-top: 10px;
+    display: none;
+    background: #fff7f0;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  footer {
+    text-align: center;
+    padding: 16px;
+    background: #333;
+    color: #fff;
+    font-size: 14px;
+  }
+  #secretBtn {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    padding: 10px 16px;
+    background: crimson;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  body.dark {
+    background: #121212;
+    color: #ddd;
+  }
+  body.dark .details {
+  background: #1c1c1c;
+  color: #f0f0f0;
+  border: 1px solid #333;
+}
+  body.dark header {
+    background: #444;
+  }
+  body.dark .recipe {
+    background: #1e1e1e;
+  }
+  body.dark footer {
+    background: #000;
+  }
+.recipe img {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+@media (max-width: 600px) {
+  .recipe img {
+    max-height: 200px;
+  }
+}
+.details {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.6; /* Ini penting untuk spasi antar baris */
+}
+
+.details b {
+  font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+<header>
+  <h1 id="logo">🍲</h1>
+  <h1>Resep R</h1>
+  <div id="themeToggle">🌞</div>
+</header>
+<input type="text" id="searchBox" placeholder="Cari resep..." />
+<div id="recipes"></div>
+<button id="secretBtn" onclick="window.location.href='secret.html'">Masuk ➡</button>
+<h5 style="text-align:center;">Resep lainnya akan muncul disini...</h5>
+<h5 style="text-align:center;">Semoga membantu 🥰</h5>
+<footer id="footer">© <span id="year"></span> Resep R</footer>
+<script>
+const recipesData = [
+   {
+    "nama": "Ayam Goreng Tepung Krispi",
+    "bahan": `
+      - 500 gr ayam potong (cuci bersih)\n
+      - 150 gr tepung bumbu serbaguna\n
+      - 1 sdt garam\n
+      - 1 sdt merica\n
+      - 5-6 sdm air es (untuk adonan basah)\n
+      - Minyak banyak untuk menggoreng (deep fry)
+    `,
+    "langkah": `
+      1.  **Persiapan Ayam:** Cuci bersih ayam potong. Pastikan ayam ditiriskan dan dikeringkan menggunakan tisu dapur (paper towel) hingga benar-benar kering. Langkah ini penting agar bumbu dan tepung bisa menempel sempurna.
+
+      2.  **Marinasi:** Lumuri potongan ayam secara merata dengan garam dan merica. Pijat-pijat ringan agar bumbu meresap. Diamkan minimal 15-30 menit di dalam kulkas (semakin lama semakin meresap).
+
+      3.  **Siapkan Dua Jenis Adonan (Kunci Krispi):** Bagi tepung bumbu serbaguna ke dalam dua wadah terpisah:
+          * **Wadah 1 (Adonan Kering):** Sisihkan sekitar 2/3 bagian tepung bumbu (sekitar 100 gr) sebagai adonan kering.
+          * **Wadah 2 (Adonan Basah):** Ambil 1/3 sisa tepung (sekitar 50 gr), lalu tambahkan 5-6 sdm air es sedikit demi sedikit sambil diaduk hingga mencapai konsistensi seperti adonan pancake (tidak terlalu kental dan tidak terlalu encer).
+
+      4.  **Proses Penepungan (Double Dip):** Ini adalah bagian terpenting untuk tekstur keriting. Lakukan satu per satu potong ayam:
+          * **Celupan Kering Pertama:** Ambil 1 potong ayam, gulingkan ke dalam **Wadah 1 (Adonan Kering)** hingga seluruh permukaan tertutup rata. Tepuk-tepuk ringan untuk membuang sisa tepung.
+          * **Celupan Basah:** Segera celupkan ayam ke dalam **Wadah 2 (Adonan Basah)**. Angkat dan biarkan sisa adonan menetes.
+          * **Celupan Kering Kedua (Final):** Masukkan kembali ayam ke **Wadah 1 (Adonan Kering)**. Kali ini, balur tepung sambil diremas-remas dan "dicubit-cubit" dengan ujung jari Anda. Proses ini akan menciptakan tekstur keriting yang akan menjadi krispi saat digoreng.
+
+      5.  **Penting:** Segera goreng ayam setelah ditepungi. Jangan didiamkan terlalu lama karena adonan akan menjadi basah dan hasilnya tidak krispi (bantat).
+
+      6.  **Pemanasan Minyak:** Siapkan wajan atau panci yang cekung. Tuang minyak dalam jumlah banyak (pastikan ayam bisa terendam penuh/deep fry). Panaskan minyak dengan api sedang-cenderung besar.
+
+      7.  **Tes Suhu Minyak:** Untuk mengecek apakah minyak sudah siap, masukkan sedikit sisa adonan tepung. Jika adonan langsung mengapung dan berbuih deras, minyak sudah cukup panas.
+
+      8.  **Proses Menggoreng:**
+          * Masukkan ayam yang sudah ditepungi satu per satu dengan hati-hati.
+          * **JANGAN** memasukkan terlalu banyak ayam sekaligus (jangan *overcrowd* wajan). Goreng dalam 2-3 batch (gelombang). Ini penting untuk menjaga suhu minyak tetap stabil.
+          * Setelah ayam masuk, gunakan api sedang agar matang hingga ke dalam tulang.
+
+      9.  **Membalik Ayam:** Biarkan ayam digoreng sekitar 5-7 menit di satu sisi hingga kokoh dan kecoklatan. Cukup balik satu kali saja agar lapisan krispi tidak hancur dan ayam tidak menyerap banyak minyak.
+
+      10. **Angkat dan Tiriskan:** Lanjutkan menggoreng hingga ayam berwarna cokelat keemasan (golden brown) merata dan matang sempurna (total sekitar 10-14 menit tergantung ukuran). Angkat ayam.
+
+      11. **Cara Meniriskan Terbaik:** Tiriskan ayam di atas **rak kawat** (cooling rack) yang diletakkan di atas loyang atau piring. **Hindari** meniriskan di atas tisu dapur, karena uap panasnya akan terperangkap dan membuat bagian bawah ayam menjadi lembek (soggy).
+
+      12. **Penyajian:** Ayam goreng krispi paling nikmat disajikan selagi hangat dengan nasi putih, kentang goreng, atau dicocol dengan saus sambal dan saus tomat favorit Anda.
+    `,
+    "gambar": "https://asset.kompas.com/crops/pbx_yXJty_AXSF_LLbyppjE8A1k=/72x15:952x601/1200x800/data/photo/2022/08/01/62e73d60a9595.jpg"
+  },
+   {
+    "nama": "Nasi Goreng Spesial",
+    "bahan": `
+      - 2 piring nasi putih dingin (nasi sisa kemarin sangat disarankan)\n
+      - 2 butir telur (1 untuk orak-arik, 1 untuk topping)\n
+      - 2 siung bawang putih, cincang halus\n
+      - 1 sdm kecap manis\n
+      - ½ sdt garam\n
+      - ½ sdt merica bubuk\n
+      - 1-2 sdm minyak goreng\n
+      - Pelengkap: Acar dan kerupuk (sesuai selera)
+    `,
+    "langkah": `
+      1.  **Persiapan Kunci (Mise en Place):** Pastikan semua bahan sudah siap. Hal terpenting adalah menggunakan **nasi dingin** (sisa semalam yang disimpan di kulkas). Nasi dingin teksturnya lebih kering dan 'pera' (terpisah-pisah), sehingga nasi goreng tidak akan lembek atau menggumpal saat dimasak.
+
+      2.  **Siapkan Wajan:** Gunakan wajan (wok) dan panaskan 1-2 sdm minyak goreng di atas api sedang-tinggi. Pastikan minyak cukup panas sebelum memasukkan bumbu.
+
+      3.  **Tumis Bumbu:** Masukkan bawang putih yang sudah dicincang halus. Tumis dengan cepat (diaduk terus) hingga warnanya berubah sedikit keemasan dan mengeluarkan aroma harum. Jangan sampai gosong, karena akan membuat rasa nasi goreng menjadi pahit.
+
+      4.  **Membuat Orak-Arik Telur:** Sisihkan bawang putih ke tepi wajan. Pecahkan 1 butir telur ke bagian wajan yang kosong. Diamkan sebentar hingga bagian bawahnya setengah matang, lalu orak-arik (scramble) telur dengan cepat menggunakan spatula hingga menjadi butiran-butiran kecil dan matang. Campurkan orak-arik telur dengan tumisan bawang putih.
+
+      5.  **Masukkan Nasi:** Segera masukkan 2 piring nasi dingin. Besarkan api (api besar penting untuk Nasi Goreng 'wok hei').
+
+      6.  **Proses Mengaduk (Penting):** Gunakan spatula untuk segera menekan dan "memecah" gumpalan-gumpalan nasi. Aduk cepat dan bolak-balik (gerakan *stir-fry*) sambil menekan nasi ke dinding wajan yang panas. Lakukan ini selama 2-3 menit hingga semua butir nasi terpisah dan sedikit 'melompat' di wajan.
+
+      7.  **Pemberian Bumbu (Seasoning):** Setelah nasi terurai, kecilkan api sedikit. Tuangkan 1 sdm kecap manis secara merata. Taburkan juga garam dan merica bubuk ke seluruh permukaan nasi.
+
+      8.  **Aduk Final:** Besarkan api kembali. Aduk nasi goreng dengan sangat cepat dan merata. Pastikan kecap dan bumbu tercampur sempurna, ditandai dengan warna nasi yang berubah menjadi cokelat merata.
+
+      9.  **Koreksi Rasa:** Cicipi sedikit nasi goreng. Jika dirasa kurang, tambahkan kecap atau garam sesuai selera. Lanjutkan memasak sambil diaduk cepat selama 1 menit lagi agar bumbu benar-benar meresap dan ada aroma sedikit 'gosong' (smoky) yang sedap. Angkat.
+
+      10. **Buat Telur Ceplok (Spesial):** Di wajan terpisah (atau gunakan wajan yang sama setelah nasi goreng diangkat), panaskan sedikit minyak. Pecahkan 1 butir telur sisa untuk membuat telur ceplok (mata sapi). Masak sesuai selera (setengah matang atau matang penuh).
+
+      11. **Penyajian:** Pindahkan nasi goreng ke piring saji selagi masih panas mengepul. Letakkan telur ceplok di atasnya.
+
+      12. **Pelengkap:** Sajikan segera dengan pelengkap "Spesial" yang wajib, yaitu acar mentimun dan kerupuk (jika ada).
+    `,
+    "gambar": "https://assets-cloudflare.segari-ops.id/recipes/nasi-goreng-spesial-lsba6q6vG9kuF.jpg"
+  }, 
+  {
+    "nama": "Sate Ayam Madura",
+    "bahan": `
+      - 500 gr daging ayam (bagian dada atau paha fillet), potong dadu 2cm\n
+      - 100 gr kacang tanah goreng\n
+      - 3 siung bawang putih\n
+      - 2 siung bawang merah (tambahan untuk bumbu halus)\n
+      - 4-5 sdm kecap manis (jumlah bisa disesuaikan selera)\n
+      - 1 sdt gula merah, sisir halus\n
+      - ½ sdt garam (atau sesuai selera)\n
+      - 150 ml air matang (untuk saus kacang)\n
+      - 2 sdm minyak goreng (untuk menumis bumbu)\n
+      - Tusuk sate secukupnya, rendam dalam air 30 menit (agar tidak gosong)\n
+      - Pelengkap: Bawang merah iris, cabai rawit potong, jeruk limau, lontong
+    `,
+    "langkah": `
+      1.  **Persiapan Bumbu Kacang (Saus Inti):** Ini adalah jantung dari Sate Madura.
+          * Haluskan kacang tanah goreng, 3 siung bawang putih, 2 siung bawang merah, gula merah, dan garam. Bisa menggunakan blender (tambahkan sedikit minyak/air) atau diulek tradisional.
+          * Panaskan 2 sdm minyak di wajan. Tumis bumbu kacang yang sudah dihaluskan tadi dengan api kecil.
+          * Aduk terus hingga bumbu harum dan warnanya sedikit lebih gelap.
+
+      2.  **Memasak Saus:**
+          * Setelah bumbu harum, tuangkan 150 ml air matang. Aduk rata.
+          * Masukkan sekitar 2-3 sdm kecap manis ke dalam saus.
+          * Masak dengan api kecil sambil terus diaduk perlahan hingga saus mengental dan mengeluarkan minyak (pecah minyak). Ini menandakan bumbu matang sempurna.
+          * Cicipi dan koreksi rasa (tambah garam/gula/kecap jika perlu). Matikan api dan sisihkan.
+
+      3.  **Persiapan Bumbu Olesan (Basting):**
+          * Ambil sekitar 4-5 sendok makan bumbu kacang yang sudah matang tadi, letakkan di mangkuk terpisah.
+          * Tambahkan sisa 2 sdm kecap manis ke dalam mangkuk tersebut. Aduk rata. Ini akan menjadi bumbu olesan (basting) saat membakar sate.
+
+      4.  **Marinasi Daging:**
+          * Ambil sekitar 1-2 sdm dari bumbu olesan (langkah 3) dan campurkan ke potongan daging ayam. Aduk rata hingga semua daging terbalur.
+          * Diamkan (marinasi) minimal 15-30 menit agar bumbu sedikit meresap.
+
+      5.  **Menusuk Sate:**
+          * Ambil tusuk sate yang sudah direndam (agar tidak mudah hangus).
+          * Tusuk 3-4 potong daging ayam yang telah dimarinasi pada setiap tusuk sate. Lakukan hingga semua daging habis.
+
+      6.  **Persiapan Panggangan:**
+          * Siapkan panggangan bara arang (hasil terbaik) atau panggangan teflon (grill pan).
+          * Jika menggunakan arang, pastikan arang sudah menjadi bara panas (tidak ada api yang menyala-nyala).
+
+      7.  **Proses Membakar (Tahap 1):**
+          * Bakar sate di atas bara api. Bolak-balik sate hingga warnanya berubah dan setengah matang (daging sudah tidak mentah).
+
+      8.  **Proses Mengoles (Basting):**
+          * Angkat sate yang setengah matang.
+          * Celupkan atau olesi sate secara merata menggunakan sisa bumbu olesan (dari langkah 3). Pastikan semua sisi terlapisi.
+
+      9.  **Proses Membakar (Tahap 2 - Final):**
+          * Letakkan kembali sate yang sudah diolesi bumbu ke atas panggangan.
+          * Bakar kembali sambil sering dibolak-balik dan dikipasi agar matang merata.
+          * Lanjutkan membakar hingga sate matang sempurna dan bumbunya terkaramelisasi (terlihat sedikit gosong di pinggir-pinggirnya). Aroma *smoky* akan keluar di tahap ini.
+
+      10. **Penyajian:**
+          * Tata sate ayam yang sudah matang di atas piring saji.
+          * Siram sate dengan sisa bumbu kacang (dari langkah 2).
+          * Taburi dengan irisan bawang merah segar dan potongan cabai rawit (jika suka pedas).
+          * Kucuri dengan perasan jeruk limau untuk menambah kesegaran.
+          * Sajikan segera selagi panas bersama lontong atau nasi putih hangat.
+    `,
+    "gambar": "https://cdn0-production-images-kly.akamaized.net/H9nxZR_iBqHJbEBbLbKePDXY_Hg=/1x66:1000x629/469x260/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4462249/original/029077700_1686543353-shutterstock_2132031603.jpg"
+  }, 
+    {
+    "nama": "Mie Ayam Bakso (Versi Kering/Yamin)",
+    "bahan": `
+      - 1 porsi mie kuning basah (atau mie telur kering)\n
+      - 100 gr ayam cincang (atau potong dadu kecil)\n
+      - 3 butir bakso, iris tipis\n
+      - 2 siung bawang putih, cincang halus\n
+      - 1 sdm kecap asin (untuk bumbu mangkuk)\n
+      - 1 sdm saus tiram (untuk topping ayam)\n
+      - 1 batang daun bawang, iris halus\n
+      - 1 sdt minyak wijen (opsional, untuk bumbu mangkuk)\n
+      - 1 sdm minyak untuk menumis\n
+      - Garam, Merica bubuk secukupnya\n
+      - 50 ml air (untuk topping ayam)\n
+      - Pelengkap: Sawi hijau (caisim) jika suka
+    `,
+    "langkah": `
+      1.  **Persiapan Bumbu Mangkuk:** Siapkan mangkuk saji utama. Tuangkan 1 sdm kecap asin, 1 sdt minyak wijen (jika pakai), dan sedikit merica bubuk ke dasar mangkuk. Sisihkan. Ini adalah "bumbu racik" untuk mie-nya.
+
+      2.  **Membuat Topping Ayam:**
+          * Panaskan 1 sdm minyak sayur di wajan/teflon.
+          * Tumis bawang putih yang sudah dicincang halus hingga harum dan sedikit kecoklatan.
+          * Masukkan ayam cincang. Aduk-aduk dan hancurkan dengan spatula hingga ayam berubah warna (tidak lagi pink) dan matang.
+          * Bumbui ayam dengan 1 sdm saus tiram, sedikit garam, dan merica. Aduk rata.
+          * Tuangkan 50 ml air (atau kaldu) agar bumbu meresap dan topping ayam sedikit berkuah (nyemek).
+          * Masak hingga air sedikit menyusut dan bumbu mengental. Cicipi dan koreksi rasa. Angkat dan sisihkan.
+
+      3.  **Merebus Mie dan Pelengkap:**
+          * Didihkan air secukupnya dalam panci.
+          * Masukkan mie kuning. Rebus hingga matang sesuai selera (sekitar 2-3 menit, jangan terlalu lembek/lodoh).
+          * **Tips:** Jika menggunakan sawi hijau, masukkan sawi di 30 detik terakhir perebusan mie.
+          * Angkat mie (dan sawi) lalu tiriskan airnya hingga benar-benar kering.
+
+      4.  **Mengaduk Mie (Penting):**
+          * Segera masukkan mie (dan sawi) yang masih panas dan baru ditiriskan ke dalam mangkuk yang sudah berisi bumbu racik (langkah 1).
+          * Aduk cepat menggunakan sumpit atau garpu hingga semua helai mie terbalur rata dengan bumbu kecap asin dan minyak di dasar mangkuk.
+
+      5.  **Penyajian (Assembly):**
+          * Tata mie yang sudah berbumbu di dalam mangkuk.
+          * Tuangkan topping ayam yang sudah dimasak (langkah 2) di bagian tengah atas mie.
+          * Susun irisan bakso di sisi-sisi topping ayam. (Catatan: Jika suka bakso yang hangat, Anda bisa merebus bakso sebentar di air rebusan mie, atau ikut menumisnya sebentar bersama topping ayam).
+
+      6.  **Finishing:**
+          * Taburi dengan irisan daun bawang segar di atasnya.
+          * Mie Ayam Bakso versi kering (yamin) siap disajikan.
+
+      7.  **Sajikan Segera:** Santap selagi hangat. (Sangat disarankan disajikan bersama semangkuk kecil kuah kaldu panas terpisah, jika ada).
+    `,
+    "gambar": "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/131/2024/04/14/Mie-Ayam-Bakso-4188967849.jpg"
+  }, 
+  {
+    "nama": "Es Jeruk Segar",
+    "bahan": `
+      - 3 buah jeruk peras (pilih yang matang dan banyak airnya)\n
+      - 2 sdm gula cair (atau gula pasir yang dilarutkan, sesuaikan selera)\n
+      - 150 ml air dingin (atau air matang suhu ruang)\n
+      - Es batu secukupnya (lebih baik gunakan es batu cetakan kecil/sedang)
+    `,
+    "langkah": `
+      1.  **Persiapan Jeruk:** Cuci bersih kulit 3 buah jeruk. Belah jeruk menjadi dua bagian (melintang).
+
+      2.  **Proses Memeras:** Peras setiap belahan jeruk menggunakan perasan jeruk (manual atau elektrik) untuk mendapatkan sari airnya. Pastikan untuk menekan secukupnya agar sari buah keluar maksimal, tapi tidak sampai bagian kulit putih (pith) ikut terperas berlebihan karena akan membuatnya pahit.
+
+      3.  **Penyaringan (Penting):** Siapkan gelas saji. Tuang hasil perasan jeruk ke dalam gelas melalui saringan kecil. Langkah ini penting untuk memisahkan biji dan ampas (serat) jeruk yang kasar, sehingga menghasilkan minuman yang lebih nyaman diminum.
+
+      4.  **Menambahkan Pemanis:** Masukkan 2 sdm gula cair (atau sirup gula) ke dalam gelas berisi sari jeruk. Gula cair lebih disarankan karena lebih mudah larut dalam air dingin dibandingkan gula pasir.
+          * *Alternatif:* Jika pakai gula pasir, larutkan dulu gula pasir dengan sedikit air panas hingga larut, dinginkan, baru dicampurkan.
+
+      5.  **Pengenceran (opsional tapi disarankan):** Tuangkan 150 ml air dingin (air matang) ke dalam gelas. Aduk sebentar. Penambahan air ini membantu menyeimbangkan rasa asam pekat dari jeruk murni.
+
+      6.  **Mengaduk dan Koreksi Rasa:** Aduk semua cairan (sari jeruk, gula, air) menggunakan sendok panjang hingga gula benar-benar larut dan tercampur merata. Cicipi sedikit.
+          * Jika terlalu asam, tambahkan sedikit gula cair lagi.
+          * Jika terlalu manis, tambahkan sedikit air perasan jeruk atau air dingin.
+
+      7.  **Menambahkan Es Batu:** Setelah rasa dipastikan pas, masukkan es batu secukupnya ke dalam gelas. Masukkan es batu perlahan agar minuman tidak tumpah.
+
+      8.  **Penyajian:** Beri hiasan (garnish) berupa irisan tipis jeruk di bibir gelas (opsional). Es Jeruk Segar siap disajikan dan dinikmati segera selagi masih dingin.
+    `,
+    "gambar": "https://cdn1-production-images-kly.akamaized.net/PGSIyg6mIvg2iG3uk9r48G4Hvpw=/469x260/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4758697/original/016644100_1709283687-shutterstock_494695573.jpg"
+  }, 
+  {
+    "nama": "Pisang Goreng Cokelat Keju (Krispi)",
+    "bahan": `
+      - 5-7 buah pisang raja/kepok yang matang (tidak terlalu lembek)\n
+      - 100 gr tepung terigu protein sedang\n
+      - 30 gr tepung beras (tambahan untuk krispi)\n
+      - 1 sdm gula pasir\n
+      - ¼ sdt garam\n
+      - ½ sdt vanili bubuk (opsional)\n
+      - 150 - 180 ml air es (air dingin)\n
+      - Minyak goreng secukupnya\n
+      - Topping: Cokelat leleh/meses dan keju cheddar parut
+    `,
+    "langkah": `
+      1.  **Persiapan Pisang:** Kupas pisang. Potong pisang sesuai selera. Bisa dibelah dua memanjang, atau dipotong kecil-kecil jika suka. Sisihkan.
+
+      2.  **Membuat Adonan Kering:** Dalam sebuah wadah, campurkan tepung terigu, tepung beras, gula pasir, garam, dan vanili bubuk (jika menggunakan). Aduk rata.
+
+      3.  **Membuat Adonan Basah (Kunci Krispi):** Tuangkan air es (air dingin) sedikit demi sedikit ke dalam campuran tepung sambil terus diaduk. Hentikan penambahan air saat adonan mencapai kekentalan yang pas—tidak terlalu encer (encer seperti air) dan tidak terlalu kental (seperti adonan cake). Tekstur adonan yang sedikit encer namun masih melapisi pisang akan menghasilkan gorengan yang lebih krispi.
+
+      4.  **Pemanasan Minyak:** Siapkan wajan. Tuang minyak goreng dalam jumlah yang cukup (agar pisang terendam sebagian/semua). Panaskan minyak dengan api sedang. Untuk mengetahui minyak sudah siap, coba teteskan sedikit adonan, jika adonan langsung mengapung, minyak sudah siap.
+
+      5.  **Proses Menggoreng:**
+          * Ambil potongan pisang, celupkan ke dalam adonan basah hingga seluruh permukaannya terlumuri.
+          * Masukkan pisang yang sudah berbalut adonan ke dalam minyak panas. Jangan memasukkan terlalu banyak pisang sekaligus (jangan *overcrowd*) agar suhu minyak tidak turun drastis.
+          * Goreng pisang sambil sesekali dibalik hingga semua sisi berwarna kuning keemasan (golden brown).
+
+      6.  **Pengangkatan dan Penirisan:** Angkat pisang goreng yang sudah matang. Tiriskan minyaknya di atas **rak kawat** (cooling rack) agar uap panas tidak terperangkap dan membuat bagian bawahnya lembek.
+
+      7.  **Penyelesaian Topping:**
+          * Letakkan pisang goreng di piring saji.
+          * Segera siram dengan cokelat leleh (atau taburkan meses) selagi pisang masih panas agar cokelat sedikit meleleh.
+          * Taburkan keju cheddar parut di atasnya sesuai selera.
+
+      8.  **Penyajian:** Sajikan Pisang Goreng Cokelat Keju selagi hangat agar rasa krispi dan lelehan cokelatnya maksimal.
+    `,
+    "gambar": "https://i.gojekapi.com/darkroom/gofood-indonesia/v2/images/uploads/f35f68d2-4964-4a4f-ad42-64ce0d3b33b0_Go-Food-Merchant_20250527_184502.jpeg?auto=format"
+  }, 
+   {
+    "nama": "Es Kopi Susu Gula Aren",
+    "bahan": `
+      - 1 shot espresso (sekitar 30-40 ml) - bisa diganti dengan 1 sdt kopi instan yang dilarutkan dalam 30 ml air panas\n
+      - 100 ml susu segar full cream (susu UHT atau *fresh milk*)\n
+      - 2 sdm gula aren cair (sesuaikan tingkat kemanisan)\n
+      - Es batu kristal atau es batu secukupnya (pastikan es batu banyak)\n
+      - Gelas saji tinggi (sekitar 250 - 300 ml)
+    `,
+    "langkah": `
+      1.  **Persiapan Espresso/Kopi:** Seduh 1 *shot* espresso (sekitar 30-40 ml) dan biarkan sebentar hingga suhunya tidak terlalu panas (hangat). Jika menggunakan kopi instan, larutkan 1 sdt kopi instan dengan 30 ml air panas.
+
+      2.  **Menyiapkan Pemanis:** Tuang 2 sendok makan gula aren cair ke dasar gelas saji. Jika Anda suka lebih manis, tambahkan 1/2 sendok lagi. Pastikan gula aren cair menempel di dasar gelas.
+
+      3.  **Memasukkan Es Batu:** Isi gelas dengan es batu hingga hampir penuh. Banyaknya es batu adalah kunci untuk menjaga dingin dan membantu membuat lapisan saat kopi dituang.
+
+      4.  **Menambahkan Susu:** Tuangkan 100 ml susu segar *full cream* ke dalam gelas. Tuang perlahan ke sisi gelas agar tidak bercampur dengan gula aren di bawahnya, dan Anda akan melihat lapisan pertama (gula aren) dan lapisan kedua (susu).
+
+      5.  **Menuang Kopi (Layering Technique):** Ini adalah kunci untuk mendapatkan tampilan berlapis yang cantik.
+          * Ambil *shot* espresso/larutan kopi yang sudah disiapkan.
+          * Tuang espresso secara perlahan di atas lapisan susu. Anda bisa menuangnya di atas permukaan es batu, atau gunakan bagian belakang sendok yang diletakkan di atas lapisan susu dan tuang kopi di atas sendok tersebut.
+          * Espresso yang hangat/suhu ruang akan mengambang di atas susu dingin, menciptakan lapisan ketiga.
+
+      6.  **Koreksi Tampilan:** Anda akan mendapatkan tampilan tiga lapisan: cokelat tua (gula aren), putih (susu), dan cokelat muda/krem (kopi) di atas.
+
+      7.  **Penyajian dan Konsumsi:** Sajikan Es Kopi Susu Gula Aren segera. Informasikan kepada yang akan meminumnya untuk **mengaduk rata** seluruh lapisan (gula aren, susu, dan kopi) menggunakan sedotan atau sendok panjang sebelum diminum agar rasa manisnya merata.
+    `,
+    "gambar": "https://asset.kompas.com/crops/oHA_InWvgjNnNKDmm3TszdEj0e0=/0x0:1000x667/1200x800/data/photo/2020/07/26/5f1d9e3132c94.jpg"
+  }, 
+  {
+    "nama": "Rendang Daging Sapi",
+    "bahan": `
+      - 500 gr daging sapi (potong ukuran rendang, sekitar 8-10 potong)\n
+      - 400 ml santan kental (dari perasan pertama)\n
+      - 600 ml santan encer (dari perasan kedua)\n
+      - **Bumbu Halus:** 10 butir bawang merah, 6 siung bawang putih, 1 ruas jahe, 1 ruas lengkuas, 1 ruas kunyit, 10 buah cabai merah keriting (sesuai selera), 5 butir kemiri sangrai.\n
+      - **Bumbu Aromatik:** 2 lembar daun kunyit (simpulkan), 4 lembar daun jeruk, 1 batang serai (memarkan), 1 lembar daun salam, ½ sdm gula merah sisir, garam secukupnya.
+    `,
+    "langkah": `
+      1.  **Persiapan Bumbu Halus:** Blender atau ulek semua bahan bumbu halus (bawang merah, bawang putih, cabai, jahe, lengkuas, kunyit, kemiri) hingga benar-benar halus.
+
+      2.  **Menumis Bumbu:** Panaskan sedikit minyak di wajan yang besar. Masukkan bumbu halus yang sudah dipersiapkan. Tumis sambil diaduk terus hingga harum, matang, dan warnanya berubah menjadi lebih gelap (*tanak*). Proses ini penting agar rendang tidak berbau langu.
+
+      3.  **Memasukkan Bumbu Aromatik:** Setelah bumbu tanak, masukkan bumbu aromatik lainnya: serai, daun jeruk, daun kunyit, dan daun salam. Tumis kembali sebentar hingga bumbu layu.
+
+      4.  **Memasukkan Daging:** Masukkan potongan daging sapi ke dalam tumisan bumbu. Aduk-aduk hingga daging berubah warna (terlumuri bumbu dan terlihat setengah matang).
+
+      5.  **Memasak Santan (Tahap Awal):** Tuang 600 ml santan encer dan 400 ml santan kental ke dalam wajan. Tambahkan gula merah dan garam. Aduk perlahan hingga semua tercampur rata.
+
+      6.  **Proses Awal Pemasakan (Kalio):** Besarkan api hingga santan mendidih. Setelah mendidih, kecilkan api ke suhu sedang-cenderung kecil. Biarkan santan menyusut sambil sesekali diaduk (terutama di bagian dasar wajan) agar santan tidak pecah dan tidak gosong. Tahap ini berlangsung sekitar 1 jam.
+
+      7.  **Santan Menyusut (Bumbu Kental):** Setelah 1-1,5 jam, santan akan mulai menyusut dan mengental menjadi seperti minyak dan bumbu yang pekat (*Kalio*). Daging pada tahap ini sudah mulai empuk.
+
+      8.  **Proses Pengeringan (Rendang):** Kecilkan api ke level paling kecil. Lanjutkan memasak. Pada tahap ini, pengadukan harus lebih sering dan intensif. Aduk setiap 5-10 menit untuk memastikan bumbu tidak menempel dan gosong di dasar wajan.
+
+      9.  **Finishing (Rendang Kering):** Terus masak hingga total waktu sekitar 2,5 - 3 jam. Bumbu akan berubah warna menjadi cokelat gelap dan teksturnya sangat kering serta berminyak. Daging akan menjadi sangat empuk. Proses yang lama ini juga membantu mengawetkan rendang.
+
+      10. **Koreksi Rasa dan Penyajian:** Cicipi dan koreksi rasa garamnya. Angkat dari kompor. Sajikan Rendang Daging Sapi yang otentik dan empuk ini bersama nasi putih hangat, ketupat, atau lontong.
+    `,
+    "gambar": "https://www.frisianflag.com/storage/app/media/uploaded-files/rendang-padang.jpg"
+  }, 
+];
+const recipesContainer = document.getElementById("recipes");
+const searchBox = document.getElementById("searchBox");
+const logo = document.getElementById("logo");
+const footer = document.getElementById("footer");
+const secretBtn = document.getElementById("secretBtn");
+const themeToggle = document.getElementById("themeToggle");
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+let darkMode = false;
+themeToggle.onclick = () => {
+  darkMode = !darkMode;
+  document.body.classList.toggle("dark");
+  themeToggle.textContent = darkMode ? "🌙" : "🌞";
+};
+
+// tampilkan resep
+function tampilkanResep(list) {
+  recipesContainer.innerHTML = "";
+  list.forEach((r, i) => {
+    const div = document.createElement("div");
+    div.className = "recipe";
+    div.innerHTML = `
+      <h3>${r.nama}</h3>
+      <img src="${r.gambar}" alt="${r.nama}" style="width:100%;border-radius:10px;margin-bottom:10px;">
+      <button onclick="toggleDetail(${i})">Lihat Resep</button>
+      <div id="detail-${i}" class="details">
+        <b>Bahan:</b><br>${r.bahan.replace(/\n/g, "<br>")}
+        <br><br>
+        <b>Langkah:</b><br>${r.langkah.replace(/\n/g, "<br>")}
+      </div>
+    `;
+    recipesContainer.appendChild(div);
+  });
+}
+
+tampilkanResep(recipesData);
+
+function toggleDetail(i) {
+  const el = document.getElementById(`detail-${i}`);
+  const btn = el.previousElementSibling; // tombol tepat di atas detail
+  const isVisible = el.style.display === "block";
+  
+  el.style.display = isVisible ? "none" : "block";
+  btn.textContent = isVisible ? "Lihat Resep" : "Tutup Resep";
+}
+
+// filter pencarian
+searchBox.addEventListener("input", () => {
+  const keyword = searchBox.value.toLowerCase();
+  const filtered = recipesData.filter(r => r.nama.toLowerCase().includes(keyword));
+  tampilkanResep(filtered);
+});
+
+// ====================
+// 🔒 Sistem Rahasia
+// ====================
+let logoClicks = 0;
+let kodeBenar = "IX A";
+let tahap = 0;
+
+logo.addEventListener("click", () => {
+  if (searchBox.value.toLowerCase().includes("ayam")) {
+    logoClicks++;
+    if (logoClicks >= 3) {
+      tahap = 1;
+    }
+  }
+});
+
+// deteksi goyangan HP / tekan S
+let lastShake = 0;
+if (window.DeviceMotionEvent) {
+  window.addEventListener("devicemotion", function(event) {
+    const acc = event.accelerationIncludingGravity;
+    const total = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+    if (total > 30 && tahap === 1 && Date.now() - lastShake > 2000) {
+      lastShake = Date.now();
+      showPasswordPrompt();
+    }
+  });
+}
+document.addEventListener("keydown", (e) => {
+  if (e.key.toLowerCase() === "s" && tahap === 1) {
+    showPasswordPrompt();
+  }
+});
+
+function showPasswordPrompt() {
+  const input = prompt("Masukan nama kelas anda:");
+  if (input === kodeBenar) {
+    tahap = 2;
+  }
+}
+
+// klik dua kali footer
+footer.addEventListener("dblclick", () => {
+  if (tahap === 2 && searchBox.value.toLowerCase().includes("ayam")) {
+    secretBtn.style.display = "block";
+  }
+});
+</script>
+
+</body>
+</html>
